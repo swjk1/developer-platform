@@ -1,0 +1,11 @@
+# Used by docker compose and by a developer running the app directly.
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/platform
+logging:
+  level:
+    com.leon: DEBUG
+    org.hibernate.SQL: DEBUG
+app:
+  cors:
+    allowed-origins: http://localhost:3000

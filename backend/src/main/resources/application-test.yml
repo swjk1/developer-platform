@@ -1,0 +1,12 @@
+# Integration tests get their datasource from Testcontainers at runtime
+# (see IntegrationTestBase), so nothing is hardcoded here.
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+logging:
+  level:
+    com.leon: DEBUG
+app:
+  cors:
+    allowed-origins: http://localhost:3000

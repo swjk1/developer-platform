@@ -1,0 +1,37 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# builds
+.next/
+out/
+build/
+dist/
+target/
+
+# environment
+.env
+.env.local
+.env*.local
+!.env.example
+
+# editors / os
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# logs
+*.log
+npm-debug.log*
+
+# test output
+coverage/
+playwright-report/
+test-results/
+
+# vercel
+.vercel
+LeonZ_Resume_SWE (4).pdf

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="navbg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#14263A"/><stop offset="1" stop-color="#0A1017"/>
+              </linearGradient>
+            </defs>
+            <rect width="640" height="400" fill="url(#navbg)"/>
+
+            <!-- occupancy grid -->
+            <g stroke="#23425E" stroke-width="1" opacity=".75">
+              <path d="M40 40v320M100 40v320M160 40v320M220 40v320M280 40v320M340 40v320M400 40v320M460 40v320M520 40v320M580 40v320"/>
+              <path d="M40 40h540M40 100h540M40 160h540M40 220h540M40 280h540M40 340h540"/>
+            </g>
+
+            <!-- occupied cells -->
+            <g fill="#2F5F86" opacity=".85">
+              <rect x="100" y="100" width="60" height="60"/><rect x="160" y="100" width="60" height="60"/>
+              <rect x="340" y="160" width="60" height="60"/><rect x="400" y="160" width="60" height="60"/>
+              <rect x="400" y="220" width="60" height="60"/>
+              <rect x="160" y="280" width="60" height="60"/>
+            </g>
+
+            <!-- inflated obstacle halo -->
+            <g fill="#2F5F86" opacity=".28">
+              <rect x="80" y="80" width="160" height="100"/>
+              <rect x="320" y="140" width="160" height="160"/>
+            </g>
+
+            <!-- A* path -->
+            <path d="M70 330 L70 250 L250 250 L250 190 L310 190 L310 70 L550 70"
+                  stroke="#4FD1C5" stroke-width="3" fill="none" stroke-linejoin="round"/>
+            <g fill="#4FD1C5">
+              <circle cx="70" cy="330" r="8"/>
+              <circle cx="250" cy="250" r="4"/><circle cx="310" cy="190" r="4"/><circle cx="310" cy="70" r="4"/>
+            </g>
+            <circle cx="550" cy="70" r="11" fill="none" stroke="#8CE3D8" stroke-width="3"/>
+
+            <!-- detections -->
+            <g stroke="#E8B54C" stroke-width="2" fill="none">
+              <rect x="486" y="36" width="76" height="52" rx="2"/>
+              <rect x="112" y="252" width="64" height="44" rx="2"/>
+            </g>
+            <g fill="#E8B54C" font-family="monospace" font-size="13">
+              <text x="486" y="30">exit .91</text>
+              <text x="112" y="246">door .87</text>
+            </g>
+          </svg>

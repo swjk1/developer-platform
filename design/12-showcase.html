@@ -1,0 +1,1243 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leon Zhang | Computer Engineering @ Waterloo</title>
+<meta name="description" content="Leon Zhang — Computer Engineering at the University of Waterloo. On-device machine learning, perception pipelines, and the systems around them.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     DIRECTION 12 — "SHOWCASE"
+     Built to the stevenleabo.com pattern: near-black, boxy techno
+     headings over a plain humanist body, a compact masthead with
+     square icon buttons, then grid after grid of project cards.
+
+     The three pinned repos lead. Everything else is support.
+     Thumbnails are inline SVG diagrams of what each project
+     actually does — swap in real screenshots when there are some.
+     ============================================================ */
+
+  :root {
+    --bg:      #0B0B0C;
+    --card:    #161618;
+    --card-2:  #1C1C1F;
+    --line:    #2A2A2E;
+    --line-2:  #3A3A40;
+    --text:    #F2F2F3;
+    --muted:   #9C9CA4;
+    --muted-2: #6E6E76;
+
+    --display: "Chakra Petch", "Oxanium", "Bahnschrift", "DIN Alternate", "Arial Narrow", sans-serif;
+    --body: "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+    --wrap: 1180px;
+    --pad: clamp(18px, 4vw, 32px);
+    --gap: clamp(16px, 2vw, 24px);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; }
+  img, svg { display: block; max-width: 100%; }
+
+  :focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--pad); }
+
+  h1, h2, h3, .display {
+    font-family: var(--display);
+    font-weight: 700;
+    letter-spacing: .002em;
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .muted { color: var(--muted); }
+
+  /* ---------- masthead ---------- */
+
+  .top {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding: clamp(34px, 5vw, 56px) 0 0;
+  }
+
+  .top h1 { font-size: clamp(19px, 2.2vw, 25px); }
+  .top p { margin: 5px 0 0; color: var(--muted); font-size: clamp(14px, 1.5vw, 16px); }
+
+  .icons { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .icons a {
+    width: 44px; height: 44px;
+    display: grid; place-items: center;
+    background: var(--card);
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: var(--text);
+    transition: background .16s, border-color .16s, transform .16s;
+  }
+
+  .icons a:hover { background: var(--card-2); border-color: var(--line-2); transform: translateY(-2px); }
+  .icons svg { width: 19px; height: 19px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .icons svg.solid { fill: currentColor; stroke: none; }
+
+  .intro {
+    margin: clamp(26px, 4vw, 42px) 0 0;
+    max-width: 78ch;
+    color: var(--muted);
+    font-size: clamp(16px, 1.7vw, 18px);
+  }
+
+  .intro b { color: var(--text); font-weight: 600; }
+
+  /* ---------- section shell ---------- */
+
+  .band { padding: clamp(52px, 7vw, 88px) 0 0; }
+  .band__head { margin-bottom: clamp(22px, 3vw, 32px); }
+  .band__head h2 { font-size: clamp(28px, 4.4vw, 46px); }
+
+  .band__head p {
+    margin: 12px 0 0;
+    max-width: 80ch;
+    color: var(--muted);
+    font-size: clamp(15px, 1.6vw, 17px);
+  }
+
+  /* ---------- project cards ---------- */
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gap);
+  }
+
+  .work {
+    display: flex;
+    flex-direction: column;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 12px 12px 22px;
+    transition: border-color .18s, background .18s, transform .18s;
+  }
+
+  .work:hover { border-color: var(--line-2); background: var(--card-2); transform: translateY(-3px); }
+
+  .thumb {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 2px;
+    background: #101013;
+    flex: none;
+  }
+
+  .thumb svg { width: 100%; height: 100%; }
+
+  .thumb__tag {
+    position: absolute;
+    left: 10px; bottom: 10px;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 2px;
+    background: rgba(11,11,12,.76);
+    backdrop-filter: blur(6px);
+    color: var(--text);
+  }
+
+  .work__body { display: flex; flex-direction: column; flex: 1; padding: 0 4px; }
+
+  .work h3 { margin: 18px 0 0; font-size: clamp(19px, 2.2vw, 24px); }
+  .work .when { margin: 9px 0 0; font-size: 15px; color: var(--text); }
+  .work .desc { margin: 12px 0 0; color: var(--muted); font-size: 15.5px; }
+
+  .work ul { margin: 14px 0 0; padding: 0; list-style: none; }
+
+  .work li {
+    position: relative;
+    padding-left: 18px;
+    margin-top: 9px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  .work li::before {
+    content: "";
+    position: absolute;
+    left: 2px; top: .62em;
+    width: 6px; height: 6px;
+    border: 1px solid var(--line-2);
+  }
+
+  .work li b { color: var(--text); font-weight: 600; }
+
+  .stack { margin: 16px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .stack span {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 10.5px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 3px 7px;
+  }
+
+  .actions { margin: 20px 0 0; display: flex; gap: 8px; flex-wrap: wrap; }
+  .actions .btn { font-size: 13px; padding: 9px 14px; }
+
+  /* the lead project runs the full width and lies on its side */
+  .work--wide { grid-column: 1 / -1; }
+
+  @media (min-width: 901px) {
+    .work--wide { flex-direction: row; gap: 24px; padding-bottom: 12px; }
+    .work--wide .thumb { width: 50%; align-self: stretch; aspect-ratio: auto; min-height: 340px; }
+    .work--wide .work__body { padding: 8px 8px 10px 0; }
+    .work--wide h3 { margin-top: 0; font-size: clamp(24px, 2.8vw, 31px); }
+    .work--wide .actions { margin-top: auto; padding-top: 20px; }
+  }
+
+  /* ---------- buttons ---------- */
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: .03em;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    background: var(--text);
+    color: #0B0B0C;
+    cursor: pointer;
+    transition: transform .16s, opacity .16s, background .16s, border-color .16s;
+  }
+
+  .btn:hover { transform: translateY(-2px); opacity: .9; }
+
+  .btn--ghost { background: var(--card); color: var(--text); border-color: var(--line); }
+  .btn--ghost:hover { background: var(--card-2); border-color: var(--line-2); opacity: 1; }
+
+  .btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ---------- centred call to action ---------- */
+
+  .cta { text-align: center; padding: clamp(60px, 9vw, 120px) 0 clamp(20px, 3vw, 40px); }
+  .cta h2 { font-size: clamp(28px, 4.6vw, 46px); }
+  .cta p { margin: 12px 0 26px; color: var(--muted); }
+
+  /* ---------- experience ---------- */
+
+  .exp-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
+
+  .exp {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 26px 24px 28px;
+    transition: border-color .18s, background .18s;
+  }
+
+  .exp:hover { border-color: var(--line-2); background: var(--card-2); }
+
+  .exp__row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .exp h3 { font-size: clamp(19px, 2.1vw, 23px); }
+  .exp .when { margin-left: auto; font-size: 14px; color: var(--muted); white-space: nowrap; }
+  .exp .where { margin: 7px 0 0; font-size: 15px; color: var(--text); }
+  .exp .where span { color: var(--muted); }
+
+  .exp ul { margin: 16px 0 0; padding: 0; list-style: none; }
+
+  .exp li {
+    position: relative;
+    padding-left: 18px;
+    margin-top: 11px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  .exp li::before {
+    content: "";
+    position: absolute;
+    left: 2px; top: .62em;
+    width: 6px; height: 6px;
+    border: 1px solid var(--line-2);
+  }
+
+  .exp li b { color: var(--text); font-weight: 600; }
+
+  /* ---------- measured results, one tile per number ---------- */
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+    gap: 1px;
+    margin: 20px 0 0;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .stat {
+    background: var(--card);
+    padding: 15px 14px 14px;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 7px;
+    transition: background .18s;
+  }
+
+  .work:hover .stat { background: var(--card-2); }
+
+  .stat dd {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(21px, 2.4vw, 27px);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat dd small { font-size: .58em; font-weight: 600; color: var(--muted); margin-left: 2px; }
+
+  .stat dt {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 10.5px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+
+  /* ---------- diagram modal ---------- */
+
+  .modal {
+    width: min(1120px, 94vw);
+    max-height: 90vh;
+    padding: 0;
+    border: 1px solid var(--line-2);
+    border-radius: 5px;
+    background: var(--card);
+    color: var(--text);
+    overflow: hidden;
+  }
+
+  .modal::backdrop { background: rgba(5,5,6,.8); backdrop-filter: blur(4px); }
+
+  .modal__bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 15px 18px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .modal__bar h3 { font-size: clamp(15px, 1.8vw, 18px); }
+
+  .modal__x {
+    margin-left: auto;
+    width: 34px; height: 34px;
+    display: grid; place-items: center;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color .16s, border-color .16s;
+  }
+
+  .modal__x:hover { color: var(--text); border-color: var(--line-2); }
+  .modal__x svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+  .modal__body { padding: 18px; overflow: auto; max-height: calc(90vh - 66px); }
+
+  .modal__body > svg {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: #0E1116;
+  }
+
+  .modal__doc { margin: 24px 0 0; max-width: 94ch; }
+
+  .modal__doc h4 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin: 30px 0 12px;
+  }
+
+  .modal__doc h4:first-child { margin-top: 0; }
+  .modal__doc p { margin: 0 0 13px; color: var(--muted); font-size: 14.5px; line-height: 1.68; }
+  .modal__doc b { color: var(--text); font-weight: 600; }
+
+  .modal__doc code {
+    font-family: "Cascadia Mono", "Consolas", ui-monospace, monospace;
+    font-size: .88em;
+    color: #BFD2C9;
+  }
+
+  .modal__steps { counter-reset: step; list-style: none; margin: 0; padding: 0; }
+
+  .modal__steps li {
+    counter-increment: step;
+    position: relative;
+    padding-left: 44px;
+    margin-bottom: 15px;
+    color: var(--muted);
+    font-size: 14.5px;
+    line-height: 1.65;
+  }
+
+  .modal__steps li::before {
+    content: counter(step, decimal-leading-zero);
+    position: absolute;
+    left: 0; top: 1px;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 12.5px;
+    color: var(--muted-2);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 2px 6px;
+  }
+
+  .modal__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+
+  .modal__cols > div {
+    background: #13151A;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 16px 16px 18px;
+  }
+
+  .modal__cols h5 {
+    margin: 0 0 9px;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14.5px;
+    color: var(--text);
+  }
+
+  .modal__cols p { margin: 0; font-size: 14px; }
+
+  .modal__note { margin: 26px 0 0; padding-top: 18px; border-top: 1px solid var(--line); font-size: 14.5px; color: var(--muted); }
+  .modal__note a { color: var(--text); }
+
+  @media (max-width: 760px) {
+    .modal__cols { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- toolkit ---------- */
+
+  .kit { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
+
+  .kit > div {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 22px 20px 24px;
+  }
+
+  .kit h3 {
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  .kit .stack { margin: 0; }
+  .kit .stack span { font-size: 11.5px; color: var(--text); border-color: var(--line-2); padding: 5px 9px; }
+
+  /* ---------- education ---------- */
+
+  .edu {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px 20px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 24px;
+  }
+
+  .edu h3 { font-size: clamp(18px, 2vw, 22px); }
+  .edu .where { color: var(--muted); font-size: 15px; }
+  .edu .when { margin-left: auto; color: var(--muted); font-size: 14px; white-space: nowrap; }
+
+  /* ---------- contact ---------- */
+
+  .contact { padding: clamp(60px, 8vw, 104px) 0 0; }
+  .contact h2 { font-size: clamp(28px, 4.4vw, 46px); margin-bottom: 26px; }
+
+  .field { margin-bottom: 20px; max-width: 800px; }
+
+  .field label {
+    display: block;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .field input, .field textarea {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 15.5px;
+    padding: 12px 14px;
+    transition: border-color .16s;
+  }
+
+  .field input::placeholder, .field textarea::placeholder { color: var(--muted-2); }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--line-2); }
+  .field textarea { min-height: 150px; resize: vertical; }
+
+  .note { margin: 14px 0 0; font-size: 13.5px; color: var(--muted-2); }
+  .note a { color: var(--muted); }
+
+  /* ---------- footer ---------- */
+
+  footer { padding: clamp(56px, 8vw, 96px) 0 clamp(40px, 6vw, 64px); }
+  footer .icons { margin: 0 auto; justify-content: center; }
+  footer .fine { margin-top: 26px; text-align: center; color: var(--muted-2); font-size: 13px; }
+
+  /* ---------- responsive ---------- */
+
+  @media (max-width: 900px) {
+    .work-grid, .exp-grid, .kit { grid-template-columns: 1fr; }
+    .exp .when, .edu .when { margin-left: 0; }
+  }
+
+  @media (max-width: 620px) {
+    .icons { margin-left: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition-duration: .01ms !important; }
+  }
+</style>
+
+<div class="wrap">
+
+  <!-- ============ masthead ============ -->
+  <header class="top">
+    <div>
+      <h1>Leon Zhang, Computer Engineering @ Waterloo</h1>
+      <p>On-device machine learning and the perception pipelines around it</p>
+    </div>
+    <nav class="icons" aria-label="Elsewhere">
+      <a href="#" title="Résumé" aria-label="Résumé"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></a>
+      <a href="https://github.com/swjk1" title="GitHub" aria-label="GitHub"><svg class="solid" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg></a>
+      <a href="https://www.linkedin.com/in/leon-zhang-zijun" title="LinkedIn" aria-label="LinkedIn"><svg class="solid" viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.76V21h-4v-5.5c0-1.31-.02-3-1.9-3-1.9 0-2.2 1.43-2.2 2.9V21h-4z"/></svg></a>
+      <a href="mailto:leonzh1018@gmail.com" title="Email" aria-label="Email"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+    </nav>
+  </header>
+
+  <p class="intro">
+    <b>Computer Engineering at the University of Waterloo.</b> I'm interested in on-device machine
+    learning, computer vision, and the perception pipelines around them.
+  </p>
+
+  <!-- ============ featured projects ============ -->
+  <section class="band" id="projects">
+    <div class="band__head">
+      <h2>Featured Projects</h2>
+    </div>
+
+    <div class="work-grid">
+
+      <!-- lead project -->
+      <article class="work work--wide">
+        <div class="thumb">
+          <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="navbg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#14263A"/><stop offset="1" stop-color="#0A1017"/>
+              </linearGradient>
+            </defs>
+            <rect width="640" height="400" fill="url(#navbg)"/>
+
+            <!-- occupancy grid -->
+            <g stroke="#23425E" stroke-width="1" opacity=".75">
+              <path d="M40 40v320M100 40v320M160 40v320M220 40v320M280 40v320M340 40v320M400 40v320M460 40v320M520 40v320M580 40v320"/>
+              <path d="M40 40h540M40 100h540M40 160h540M40 220h540M40 280h540M40 340h540"/>
+            </g>
+
+            <!-- occupied cells -->
+            <g fill="#2F5F86" opacity=".85">
+              <rect x="100" y="100" width="60" height="60"/><rect x="160" y="100" width="60" height="60"/>
+              <rect x="340" y="160" width="60" height="60"/><rect x="400" y="160" width="60" height="60"/>
+              <rect x="400" y="220" width="60" height="60"/>
+              <rect x="160" y="280" width="60" height="60"/>
+            </g>
+
+            <!-- inflated obstacle halo -->
+            <g fill="#2F5F86" opacity=".28">
+              <rect x="80" y="80" width="160" height="100"/>
+              <rect x="320" y="140" width="160" height="160"/>
+            </g>
+
+            <!-- A* path -->
+            <path d="M70 330 L70 250 L250 250 L250 190 L310 190 L310 70 L550 70"
+                  stroke="#4FD1C5" stroke-width="3" fill="none" stroke-linejoin="round"/>
+            <g fill="#4FD1C5">
+              <circle cx="70" cy="330" r="8"/>
+              <circle cx="250" cy="250" r="4"/><circle cx="310" cy="190" r="4"/><circle cx="310" cy="70" r="4"/>
+            </g>
+            <circle cx="550" cy="70" r="11" fill="none" stroke="#8CE3D8" stroke-width="3"/>
+
+            <!-- detections -->
+            <g stroke="#E8B54C" stroke-width="2" fill="none">
+              <rect x="486" y="36" width="76" height="52" rx="2"/>
+              <rect x="112" y="252" width="64" height="44" rx="2"/>
+            </g>
+            <g fill="#E8B54C" font-family="monospace" font-size="13">
+              <text x="486" y="30">exit .91</text>
+              <text x="112" y="246">door .87</text>
+            </g>
+          </svg>
+          <span class="thumb__tag">mAP50 0.833 · 17 classes</span>
+        </div>
+
+        <div class="work__body">
+          <h3>Navigation Assistant for the Visually Impaired</h3>
+          <p class="desc">
+            An Android app that guides a blind or low-vision user through an indoor space it has
+            never seen — no floor plan, no beacons, no installed hardware. It maps the room with
+            ARCore depth, reads signs and obstacles on device, and gives one instruction at a time.
+          </p>
+          <dl class="stats">
+            <div class="stat"><dt>Detector mAP50</dt><dd>0.833</dd></div>
+            <div class="stat"><dt>Precision</dt><dd>0.919</dd></div>
+            <div class="stat"><dt>On-device model</dt><dd>9.8<small>MB</small></dd></div>
+          </dl>
+          <div class="stack">
+            <span>Kotlin</span><span>ARCore</span><span>YOLO</span><span>ONNX Runtime</span><span>ML Kit OCR</span><span>React Native</span>
+          </div>
+          <div class="actions">
+            <a class="btn" href="https://github.com/swjk1/Navigation-assistant-for-visually-impaired">GitHub <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <button class="btn btn--ghost" type="button" data-modal="arch">Architecture <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          </div>
+        </div>
+      </article>
+
+      <!-- keyguard -->
+      <article class="work">
+        <div class="thumb">
+          <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="kgbg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#2A1C22"/><stop offset="1" stop-color="#120D10"/>
+              </linearGradient>
+            </defs>
+            <rect width="640" height="360" fill="url(#kgbg)"/>
+
+            <!-- message field -->
+            <rect x="60" y="48" width="520" height="96" rx="6" fill="#1D1418" stroke="#3A2A31"/>
+            <g fill="#CFCFD4"><rect x="82" y="76" width="120" height="12" rx="4"/><rect x="214" y="76" width="70" height="12" rx="4"/></g>
+            <rect x="82" y="102" width="196" height="16" rx="4" fill="#E0564B" opacity=".85"/>
+            <g fill="#CFCFD4"><rect x="292" y="104" width="86" height="12" rx="4"/></g>
+
+            <!-- warning strip -->
+            <rect x="60" y="164" width="520" height="52" rx="4" fill="#241A1E" stroke="#4A343C"/>
+            <circle cx="88" cy="190" r="11" fill="none" stroke="#E0564B" stroke-width="2"/>
+            <path d="M88 184v7M88 195v1" stroke="#E0564B" stroke-width="2" stroke-linecap="round"/>
+            <g fill="#E7A9A2"><rect x="112" y="184" width="210" height="12" rx="4"/></g>
+            <g fill="none" stroke="#9C9CA4" stroke-width="1.5">
+              <rect x="392" y="176" width="78" height="28" rx="3"/><rect x="482" y="176" width="78" height="28" rx="3"/>
+            </g>
+
+            <!-- keyboard, dimmed -->
+            <g fill="#2A1F24" opacity=".9">
+              <rect x="60" y="238" width="48" height="34" rx="4"/><rect x="118" y="238" width="48" height="34" rx="4"/>
+              <rect x="176" y="238" width="48" height="34" rx="4"/><rect x="234" y="238" width="48" height="34" rx="4"/>
+              <rect x="292" y="238" width="48" height="34" rx="4"/><rect x="350" y="238" width="48" height="34" rx="4"/>
+              <rect x="408" y="238" width="48" height="34" rx="4"/><rect x="466" y="238" width="48" height="34" rx="4"/>
+              <rect x="524" y="238" width="56" height="34" rx="4"/>
+              <rect x="88" y="282" width="48" height="34" rx="4"/><rect x="146" y="282" width="48" height="34" rx="4"/>
+              <rect x="204" y="282" width="48" height="34" rx="4"/><rect x="262" y="282" width="48" height="34" rx="4"/>
+              <rect x="320" y="282" width="48" height="34" rx="4"/><rect x="378" y="282" width="48" height="34" rx="4"/>
+              <rect x="436" y="282" width="48" height="34" rx="4"/><rect x="494" y="282" width="48" height="34" rx="4"/>
+            </g>
+            <!-- the two keys that never dim -->
+            <rect x="524" y="238" width="56" height="34" rx="4" fill="#4A3A42"/>
+            <rect x="60" y="282" width="20" height="34" rx="4" fill="#4A3A42"/>
+          </svg>
+          <span class="thumb__tag">On device · no network</span>
+        </div>
+
+        <div class="work__body">
+          <h3>Keyguard</h3>
+          <p class="desc">
+            A safety keyboard and accessibility overlay that warns before a child sends something
+            they shouldn't — personal information, or content that could hurt them. Detection runs
+            on device; nothing typed ever leaves the phone.
+          </p>
+          <dl class="stats">
+            <div class="stat"><dt>Median scan, 500 chars</dt><dd>136<small>µs</small></dd></div>
+            <div class="stat"><dt>PII entity types</dt><dd>23</dd></div>
+            <div class="stat"><dt>Tests</dt><dd>312</dd></div>
+          </dl>
+          <div class="stack"><span>Kotlin</span><span>PyTorch</span><span>ONNX Runtime</span><span>Android</span><span>Next.js</span></div>
+          <div class="actions">
+            <a class="btn" href="https://github.com/swjk1/keyguard">GitHub <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <!-- cookpilot -->
+      <article class="work">
+        <div class="thumb">
+          <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="cbbg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#1B2A16"/><stop offset="1" stop-color="#0C120A"/>
+              </linearGradient>
+            </defs>
+            <rect width="640" height="360" fill="url(#cbbg)"/>
+
+            <!-- video frame strip -->
+            <g stroke="#3E6B34" stroke-width="1.5" fill="#16240F">
+              <rect x="50" y="42" width="112" height="66" rx="3"/>
+              <rect x="180" y="42" width="112" height="66" rx="3"/>
+              <rect x="310" y="42" width="112" height="66" rx="3"/>
+              <rect x="440" y="42" width="112" height="66" rx="3"/>
+            </g>
+            <!-- selected keyframe -->
+            <rect x="180" y="42" width="112" height="66" rx="3" fill="none" stroke="#9AE66E" stroke-width="3"/>
+
+            <!-- waveform (ASR) -->
+            <g stroke="#9AE66E" stroke-width="2" opacity=".9">
+              <path d="M50 160v-16M62 160v-30M74 160v-10M86 160v-38M98 160v-22M110 160v-44M122 160v-14M134 160v-26M146 160v-34M158 160v-12M170 160v-30M182 160v-42M194 160v-18M206 160v-28M218 160v-36M230 160v-14M242 160v-24M254 160v-40M266 160v-16M278 160v-30"/>
+            </g>
+            <path d="M50 160h500" stroke="#3E6B34" stroke-width="1"/>
+
+            <!-- recipe steps -->
+            <g>
+              <rect x="50" y="196" width="500" height="36" rx="4" fill="#1D2E16" stroke="#3E6B34"/>
+              <circle cx="74" cy="214" r="9" fill="#9AE66E"/>
+              <rect x="96" y="208" width="300" height="12" rx="4" fill="#C7E8B0"/>
+            </g>
+            <g opacity=".55">
+              <rect x="50" y="244" width="500" height="36" rx="4" fill="#161F12" stroke="#2C4A25"/>
+              <circle cx="74" cy="262" r="9" fill="none" stroke="#6F9B5E" stroke-width="2"/>
+              <rect x="96" y="256" width="230" height="12" rx="4" fill="#6F9B5E"/>
+            </g>
+            <g opacity=".35">
+              <rect x="50" y="292" width="500" height="36" rx="4" fill="#161F12" stroke="#2C4A25"/>
+              <circle cx="74" cy="310" r="9" fill="none" stroke="#6F9B5E" stroke-width="2"/>
+              <rect x="96" y="304" width="270" height="12" rx="4" fill="#6F9B5E"/>
+            </g>
+          </svg>
+          <span class="thumb__tag">Hands-free · voice</span>
+        </div>
+
+        <div class="work__body">
+          <h3>CookPilot — Hands-Free Recipe Assistant</h3>
+          <p class="desc">
+            A hands-free cooking assistant. Instead of pausing a video with wet hands you talk to
+            it — it has already watched the recipe, pulled out the steps, and reads you one at a time.
+          </p>
+          <div class="stack"><span>Python</span><span>Whisper</span><span>PaddleOCR</span><span>PostgreSQL</span><span>Docker</span><span>Railway</span></div>
+          <div class="actions">
+            <a class="btn" href="https://github.com/swjk1/CookBot">GitHub <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ cta ============ -->
+  <section class="cta">
+    <h2>Want to Work Together?</h2>
+    <p class="muted">Currently looking for Summer 2027 co-op. Contact me and we can chat.</p>
+    <a class="btn" href="#contact">Contact Me</a>
+  </section>
+
+  <!-- ============ experience ============ -->
+  <section class="band" id="experience">
+    <div class="band__head">
+      <h2>Experience</h2>
+      <p>Where the same work happens with someone else's deadline attached.</p>
+    </div>
+
+    <div class="exp-grid">
+
+      <article class="exp">
+        <div class="exp__row">
+          <h3>Undergraduate Research Assistant</h3>
+          <span class="when">Sept 2026 – Present</span>
+        </div>
+        <p class="where">Vision and Image Processing Lab <span>· Waterloo, Canada</span></p>
+        <ul>
+          <li>Built a <b>puck-tracking pipeline</b> that converts noisy broadcast-video detections into rink-space position and velocity tracks, using homography projection, calibrated confidence gating, local outlier rejection, and possession-based anchoring.</li>
+          <li>Implemented a segmented constant-velocity <b>Kalman filter with a Rauch–Tung–Striebel smoother</b>, Mahalanobis gating and uncertainty estimation, cutting physically impossible &gt;50 m/s jumps from <b>35.8% to 1.3%</b>.</li>
+          <li>Evaluated on 62 held-out segments and 81k+ frames: median puck-position error fell from <b>2.99 m to 0.71 m</b> at 82.6% valid-frame coverage.</li>
+        </ul>
+      </article>
+
+      <article class="exp">
+        <div class="exp__row">
+          <h3>Software Engineer</h3>
+          <span class="when">May 2026 – Sept 2026</span>
+        </div>
+        <p class="where">Unmodal Research <span>· Toronto, Canada</span></p>
+        <ul>
+          <li>Built a FastAPI/LangGraph <b>database migration platform</b> mapping 25,000+ source fields across 3,000+ tables into a standardized common data model.</li>
+          <li>Saved <b>8+ hours a week</b> of project-management triage with an agent that ingests meeting transcripts, extracts action items, and creates and updates assigned Trello tasks.</li>
+          <li>Built and presented a custom restaurant ordering application from client requirements, iterating directly with stakeholders; <b>now being deployed to restaurants</b> in the U.S. and Middle East.</li>
+        </ul>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ toolkit ============ -->
+  <section class="band" id="toolkit">
+    <div class="band__head">
+      <h2>Toolkit</h2>
+    </div>
+
+    <div class="kit">
+      <div>
+        <h3>Languages</h3>
+        <div class="stack">
+          <span>Python</span><span>C++</span><span>Kotlin</span><span>TypeScript</span><span>JavaScript</span><span>SQL</span>
+        </div>
+      </div>
+      <div>
+        <h3>Frameworks &amp; Libraries</h3>
+        <div class="stack">
+          <span>PyTorch</span><span>ONNX Runtime</span><span>FastAPI</span><span>LangGraph</span><span>React</span><span>Next.js</span>
+        </div>
+      </div>
+      <div>
+        <h3>Tools &amp; Platforms</h3>
+        <div class="stack">
+          <span>Git</span><span>Docker</span><span>Linux</span><span>Railway</span><span>PostgreSQL</span><span>ARCore</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ education ============ -->
+  <section class="band" id="education">
+    <div class="band__head">
+      <h2>Education</h2>
+    </div>
+
+    <div class="edu">
+      <div>
+        <h3>University of Waterloo</h3>
+        <p class="where">BASc, Computer Engineering · GPA 93%</p>
+      </div>
+      <span class="when">Sept 2025 – May 2030 · Waterloo, Canada</span>
+    </div>
+  </section>
+
+  <!-- ============ contact ============ -->
+  <section class="contact" id="contact">
+    <h2>Contact Me</h2>
+
+    <div class="field">
+      <label for="email">Your email</label>
+      <input id="email" type="email" placeholder="you@company.com" autocomplete="email">
+    </div>
+
+    <div class="field">
+      <label for="msg">Your message</label>
+      <textarea id="msg" placeholder="Tell me what you're building."></textarea>
+    </div>
+
+    <button class="btn" type="button">Send message</button>
+    <p class="note">
+      Mockup — this form doesn't submit anywhere yet. Email works:
+      <a href="mailto:leonzh1018@gmail.com">leonzh1018@gmail.com</a>
+    </p>
+  </section>
+
+  <!-- ============ footer ============ -->
+  <footer>
+    <nav class="icons" aria-label="Elsewhere">
+      <a href="#" title="Résumé" aria-label="Résumé"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></a>
+      <a href="https://github.com/swjk1" title="GitHub" aria-label="GitHub"><svg class="solid" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg></a>
+      <a href="https://www.linkedin.com/in/leon-zhang-zijun" title="LinkedIn" aria-label="LinkedIn"><svg class="solid" viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.76V21h-4v-5.5c0-1.31-.02-3-1.9-3-1.9 0-2.2 1.43-2.2 2.9V21h-4z"/></svg></a>
+      <a href="mailto:leonzh1018@gmail.com" title="Email" aria-label="Email"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+    </nav>
+    <p class="fine">Leon Zhang · Waterloo, Ontario · Chakra Petch / Inter</p>
+  </footer>
+
+</div>
+
+<!-- ============ architecture diagram, shown in place ============ -->
+<dialog class="modal" id="arch" aria-labelledby="arch-title">
+  <div class="modal__bar">
+    <h3 id="arch-title">Navigation Assistant — Architecture</h3>
+    <button class="modal__x" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+
+  <div class="modal__body">
+    <svg viewBox="0 0 1000 930" role="img" aria-label="Architecture. A single ARCore session at the top feeds two consumers: the RGB frame goes to on-device YOLO and ML Kit OCR, optionally enriched by a gated Gemini vision model, then mapped to semantic observations; pose and depth go to the navigation runtime and into a pure Kotlin engine that builds an occupancy grid, inflates obstacles, picks frontiers, plans with A star and a topological map, and emits one instruction. Only compact snapshots cross into JavaScript for speech and haptics.">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#5E7A93"/>
+        </marker>
+        <marker id="ar-t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#4FD1C5"/>
+        </marker>
+        <marker id="ar-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#8878B8"/>
+        </marker>
+      </defs>
+
+      <rect width="1000" height="930" fill="#0E1116"/>
+
+      <!-- ===== the shared camera session ===== -->
+      <rect x="40" y="28" width="920" height="72" rx="5" fill="#1B2230" stroke="#3C5372" stroke-width="1.5"/>
+      <circle cx="74" cy="64" r="13" fill="none" stroke="#7FA6CE" stroke-width="2"/>
+      <circle cx="74" cy="64" r="5" fill="#7FA6CE"/>
+      <text x="104" y="58" fill="#F2F2F3" font-family="Chakra Petch, Bahnschrift, sans-serif" font-weight="700" font-size="20">Camera · one ARCore session</text>
+      <text x="104" y="82" fill="#7F93AA" font-family="monospace" font-size="13">ARCore demands exclusive access — a second session silently evicts the first, so one module owns it and both consumers read the same frame</text>
+
+      <path d="M250 100 L250 148" stroke="#5E7A93" stroke-width="2" marker-end="url(#ar)"/>
+      <path d="M750 100 L750 148" stroke="#4FD1C5" stroke-width="2.5" marker-end="url(#ar-t)"/>
+      <text x="262" y="130" fill="#7F93AA" font-family="monospace" font-size="12">RGB frame</text>
+      <text x="762" y="130" fill="#5E9B98" font-family="monospace" font-size="12">6DoF pose + depth · ~30 fps</text>
+
+      <!-- ===== LEFT LANE — perception ===== -->
+      <rect x="40" y="148" width="430" height="196" rx="5" fill="#16232E" stroke="#2B3F52" stroke-width="1.5"/>
+      <text x="62" y="180" fill="#F2F2F3" font-family="Chakra Petch, Bahnschrift, sans-serif" font-weight="700" font-size="19">indoor-perception</text>
+      <text x="62" y="201" fill="#6E8399" font-family="monospace" font-size="13">native · owns the session</text>
+
+      <rect x="62" y="214" width="386" height="44" rx="3" fill="#1E3446" stroke="#3A5670"/>
+      <text x="78" y="235" fill="#CFE0EE" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">YOLO26n · ONNX · on device</text>
+      <text x="78" y="252" fill="#89A4BC" font-family="monospace" font-size="11.5">17 wayfinding classes · 640×640 · 9.8 MB</text>
+
+      <rect x="62" y="266" width="386" height="44" rx="3" fill="#1E3446" stroke="#3A5670"/>
+      <text x="78" y="287" fill="#CFE0EE" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">ML Kit OCR · on device</text>
+      <text x="78" y="304" fill="#89A4BC" font-family="monospace" font-size="11.5">room numbers, exit and floor text</text>
+
+      <text x="62" y="331" fill="#6E8399" font-family="monospace" font-size="11.5">RGB → JPEG only when a capture is requested · every 2.5 s</text>
+
+      <!-- gemini, optional -->
+      <path d="M255 344 L255 380" stroke="#8878B8" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ar-p)"/>
+      <text x="267" y="368" fill="#8878B8" font-family="monospace" font-size="12">gated image request</text>
+
+      <rect x="40" y="380" width="430" height="116" rx="5" fill="#1D1726" stroke="#4A3D63" stroke-width="1.5" stroke-dasharray="7 5"/>
+      <text x="62" y="412" fill="#C3B6F2" font-family="Chakra Petch, Bahnschrift, sans-serif" font-weight="700" font-size="19">Gemini Flash VLM</text>
+      <rect x="236" y="396" width="82" height="22" rx="3" fill="#2C2440" stroke="#4A3D63"/>
+      <text x="248" y="412" fill="#AFA2CE" font-family="monospace" font-size="11.5">optional</text>
+      <text x="62" y="441" fill="#AFA2CE" font-family="Inter, Segoe UI, sans-serif" font-size="14">Second opinion on the scene, gated per capture.</text>
+      <text x="62" y="463" fill="#AFA2CE" font-family="Inter, Segoe UI, sans-serif" font-size="14">No key? YOLO and OCR still run, fully on device —</text>
+      <text x="62" y="483" fill="#AFA2CE" font-family="Inter, Segoe UI, sans-serif" font-size="14">only the VLM stage reports <tspan font-family="monospace" font-size="13">mock</tspan>.</text>
+
+      <path d="M255 496 L255 532" stroke="#5E7A93" stroke-width="2" marker-end="url(#ar)"/>
+
+      <!-- label mapping -->
+      <rect x="40" y="532" width="430" height="150" rx="5" fill="#16232E" stroke="#2B3F52" stroke-width="1.5"/>
+      <text x="62" y="564" fill="#F2F2F3" font-family="Chakra Petch, Bahnschrift, sans-serif" font-weight="700" font-size="19">Label mapping</text>
+      <text x="62" y="585" fill="#6E8399" font-family="monospace" font-size="13">a sign is reported as its subject</text>
+      <g font-family="monospace" font-size="13">
+        <text x="62" y="612" fill="#89A4BC">exit sign</text><text x="176" y="612" fill="#5E7A93">→</text><text x="206" y="612" fill="#CFE0EE">EXIT + direction</text>
+        <text x="62" y="634" fill="#89A4BC">stair sign</text><text x="176" y="634" fill="#5E7A93">→</text><text x="206" y="634" fill="#CFE0EE">STAIRS</text>
+        <text x="62" y="656" fill="#89A4BC">"314"</text><text x="176" y="656" fill="#5E7A93">→</text><text x="206" y="656" fill="#CFE0EE">ROOM landmark</text>
+      </g>
+      <text x="62" y="674" fill="#6E8399" font-family="monospace" font-size="11.5">person, trash can → dropped; depth already sees them</text>
+
+      <path d="M470 606 L530 606" stroke="#5E7A93" stroke-width="2" marker-end="url(#ar)"/>
+      <text x="300" y="706" fill="#6E8399" font-family="monospace" font-size="12">semantic hints · bias only, never movement</text>
+
+      <!-- ===== RIGHT LANE — navigation ===== -->
+      <rect x="530" y="148" width="430" height="196" rx="5" fill="#16232E" stroke="#2B3F52" stroke-width="1.5"/>
+      <text x="552" y="180" fill="#F2F2F3" font-family="Chakra Petch, Bahnschrift, sans-serif" font-weight="700" font-size="19">navigation-native</text>
+      <text x="552" y="201" fill="#6E8399" font-family="monospace" font-size="13">native · the bridge into the engine</text>
+      <g fill="#AFC2D4" font-family="Inter, Segoe UI, sans-serif" font-size="14.5">
+        <text x="552" y="233">· Pose and depth conversion</text>
+        <text x="552" y="261">· One engine thread</text>
+        <text x="552" y="289">· Latest-frame queue — stale depth is dropped,</text>
+        <text x="566" y="311">never queued</text>
+      </g>
+
+      <path d="M745 344 L745 380" stroke="#4FD1C5" stroke-width="2.5" marker-end="url(#ar-t)"/>
+      <text x="757" y="368" fill="#5E9B98" font-family="monospace" font-size="12">NavigationFrame</text>
+
+      <rect x="530" y="380" width="430" height="422" rx="5" fill="#122A2B" stroke="#2F6B6B" stroke-width="1.5"/>
+      <text x="552" y="412" fill="#F2F2F3" font-family="Chakra Petch, Bahnschrift, sans-serif" font-weight="700" font-size="20">navigation-core</text>
+      <text x="552" y="433" fill="#5E9B98" font-family="monospace" font-size="13">pure Kotlin · separate Gradle project</text>
+
+      <g>
+        <rect x="552" y="448" width="386" height="42" rx="3" fill="#14383A" stroke="#2F6B6B"/>
+        <text x="568" y="467" fill="#BDECE7" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">Occupancy grid</text>
+        <text x="568" y="483" fill="#6FAFAA" font-family="monospace" font-size="11.5">10 cm cells · 120 × 120 · 12 m window · depth ≤ 6 m</text>
+
+        <rect x="552" y="498" width="386" height="42" rx="3" fill="#14383A" stroke="#2F6B6B"/>
+        <text x="568" y="517" fill="#BDECE7" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">Obstacle inflation</text>
+        <text x="568" y="533" fill="#6FAFAA" font-family="monospace" font-size="11.5">by body radius · goal snaps to nearest reachable cell</text>
+
+        <rect x="552" y="548" width="386" height="42" rx="3" fill="#14383A" stroke="#2F6B6B"/>
+        <text x="568" y="567" fill="#BDECE7" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">Frontier exploration</text>
+        <text x="568" y="583" fill="#6FAFAA" font-family="monospace" font-size="11.5">free beside unknown · clusters &lt; 6 cells rejected as speckle</text>
+
+        <rect x="552" y="598" width="386" height="42" rx="3" fill="#1A4A48" stroke="#48908C"/>
+        <text x="568" y="617" fill="#D6F5F1" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">Local A* + line-of-sight smoothing</text>
+        <text x="568" y="633" fill="#7FC2BC" font-family="monospace" font-size="11.5">raw grid A* stair-steps into unusable left/right chatter</text>
+
+        <rect x="552" y="648" width="386" height="42" rx="3" fill="#1A4A48" stroke="#48908C"/>
+        <text x="568" y="667" fill="#D6F5F1" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">Topological map</text>
+        <text x="568" y="683" fill="#7FC2BC" font-family="monospace" font-size="11.5">sparse graph · an edge means "I have walked this"</text>
+
+        <rect x="552" y="698" width="386" height="42" rx="3" fill="#1A4A48" stroke="#48908C"/>
+        <text x="568" y="717" fill="#D6F5F1" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">Backtracking · graph A*</text>
+        <text x="568" y="733" fill="#7FC2BC" font-family="monospace" font-size="11.5">back to the last junction with unexplored ways out</text>
+
+        <rect x="552" y="748" width="386" height="42" rx="3" fill="#14383A" stroke="#2F6B6B"/>
+        <text x="568" y="767" fill="#BDECE7" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">Controller</text>
+        <text x="568" y="783" fill="#6FAFAA" font-family="monospace" font-size="11.5">1.5 m lookahead · 350 ms hold · 1.4 s dwell · STOP bypasses</text>
+      </g>
+
+      <rect x="742" y="410" width="196" height="26" rx="3" fill="#2A1A1C" stroke="#7A3B36"/>
+      <text x="756" y="428" fill="#E8897F" font-family="monospace" font-size="12">no Android SDK · no ARCore</text>
+
+      <!-- ===== the bridge into JavaScript ===== -->
+      <path d="M745 802 L745 848" stroke="#4FD1C5" stroke-width="2.5" marker-end="url(#ar-t)"/>
+      <text x="757" y="832" fill="#5E9B98" font-family="monospace" font-size="12">snapshot · ≤ 8 Hz</text>
+
+      <path d="M40 826 L700 826" stroke="#E0564B" stroke-width="1.5" stroke-dasharray="7 6"/>
+      <text x="44" y="820" fill="#E0564B" font-family="monospace" font-size="12.5">the bridge · depth clouds and the grid never cross it</text>
+
+      <rect x="40" y="848" width="920" height="60" rx="5" fill="#152030" stroke="#33485D" stroke-width="1.5"/>
+      <text x="62" y="874" fill="#F2F2F3" font-family="Chakra Petch, Bahnschrift, sans-serif" font-weight="700" font-size="18">Expo / React Native · guidance output</text>
+      <text x="62" y="895" fill="#7F93AA" font-family="monospace" font-size="12.5">speech + haptics · one instruction at a time</text>
+    </svg>
+
+    <div class="modal__doc">
+
+      <h4>The camera: one session, two consumers</h4>
+      <p>
+        ARCore demands exclusive access to the camera, and the engine cannot run without it —
+        6DoF pose and depth are its only inputs. So the module that opens the camera has to be
+        the one running the session; a second <code>CameraView</code> either fails to open or
+        silently evicts the first, with no crash and no error to tell you.
+      </p>
+      <p>
+        <code>indoor-perception</code> therefore owns the single session and both halves read the
+        same frame: <b>pose and depth go to navigation, the RGB image goes to perception</b>. The
+        RGB is encoded to JPEG only when a capture is actually requested — converting every frame
+        at 30 fps would burn battery for nothing.
+      </p>
+
+      <h4>Perception: YOLO and OCR, both on the device</h4>
+      <p>
+        <b>A fine-tuned YOLO26n runs locally through ONNX Runtime</b> — 9.8 MB, 640 × 640 input,
+        17 wayfinding classes chosen because COCO has none of the labels that matter here. There
+        are no COCO categories for <i>exit sign</i>, <i>elevator sign</i> or <i>push handle</i>,
+        which is why fine-tuning is what makes the semantic half work at all. The input buffer is
+        allocated once and reused, and boxes come back in the 640 × 640 space, normalised against
+        the original image.
+      </p>
+      <p>
+        <b>ML Kit OCR reads the text in the same frame</b> — room numbers, floor markers, the
+        words on a sign. Together they answer different halves of the same question: YOLO finds
+        that there <i>is</i> a door, OCR finds that it says <i>314</i>.
+      </p>
+      <p>
+        Labels are then mapped to their <b>subject rather than flattened to a generic sign</b>. An
+        <code>exit sign</code> becomes <code>EXIT</code> plus a direction, a <code>stair sign</code>
+        becomes <code>STAIRS</code>, a washroom becomes a room landmark. Calling an exit sign
+        merely "a sign" throws away the only useful part of it. <code>person</code> and
+        <code>trash can</code> are dropped entirely — the engine already sees those through depth,
+        and a second opinion adds nothing.
+      </p>
+
+      <h4>Gemini is a gate, not a dependency</h4>
+      <p>
+        A Gemini Flash vision model can be asked for a second opinion on a capture, gated per
+        request rather than run on every frame. <b>It is strictly optional.</b> Without a key,
+        YOLO and OCR still run entirely on device and only the VLM stage reports
+        <code>mock</code> — mapping and planning have no model dependency at all, so the
+        navigation demo does not need it and nothing degrades if the network is gone.
+      </p>
+      <p>
+        Whatever perception produces, it only ever <b>biases</b> frontier choice. The planner
+        decides movement. A sign that covers the target counts as strong positive evidence; a sign
+        that does not is only weak negative evidence, so an alternative branch is never eliminated
+        by a misread.
+      </p>
+
+      <h4>Mapping: what the engine actually knows</h4>
+      <p>
+        Depth folds into an occupancy grid of <b>10 cm cells, 120 × 120 over a 12 m window</b>,
+        with readings past 6 m discarded because accuracy degrades badly beyond it. Free space is
+        carved by ray-casting rather than marked point by point: the ray gains free evidence along
+        its length and occupied evidence at its endpoint, without which the map would be a field
+        of obstacle dots with nothing walkable between them.
+      </p>
+      <p>
+        Obstacles are then inflated by body radius, with two deliberate relaxations — the goal
+        snaps to the nearest reachable cell when inflation swallowed it, and the path may escape
+        the halo <i>around the start</i>, because a person routinely stands closer to a wall than
+        their own body radius. Never through a genuinely occupied cell.
+      </p>
+
+      <h4>Planning: frontiers, A*, and a graph of where you have walked</h4>
+      <p>
+        <b>Frontier exploration</b> finds free cells that sit next to unknown ones, flood-fills
+        them into clusters, and throws away clusters under six cells as depth speckle. Each
+        candidate is scored on information gain and semantic hints against distance, revisits and
+        risk — and once chosen, a waypoint is <i>committed to</i>, held through frontier splits
+        and merges and released only on arrival, blockage, or twenty seconds without getting
+        0.3 m closer. Frontier ids regenerate every pass, so without commitment the engine kept
+        picking a fresh winner on the other side of the room.
+      </p>
+      <p>
+        <b>Local A* plans the route across the grid, then line-of-sight smoothing straightens
+        it.</b> Raw grid A* stair-steps, and a stair-stepped path read aloud becomes an unusable
+        stream of alternating slight-left, slight-right.
+      </p>
+      <p>
+        <b>A topological map is the building-scale memory</b>, because a 10 cm grid forgets a
+        corridor once you are two rooms away. It is a sparse graph of places — nodes created every
+        2.5 m or on a significant turn, never per frame — and a new node within 1.6 m of an
+        existing one merges into it, so walking a loop does not lay down duplicate parallel
+        corridors. The critical rule: <b>an edge means "I have walked this."</b> A landmark spotted
+        across a lobby becomes a node but gets no edge to where you were standing, because
+        visibility is not walkability — and that missing distinction previously let global routing
+        plan a route straight through a wall.
+      </p>
+      <p>
+        <b>Backtracking is graph A* over that memory</b>, answering "how do I get back to the last
+        junction that still has unexplored ways out". Without it the engine would walk someone
+        into the same dead end forever.
+      </p>
+
+      <h4>From a path to one spoken instruction</h4>
+      <p>
+        The controller looks 1.5 m ahead rather than at the next 10 cm cell, smooths heading
+        circularly so it does not break at the ±180° seam, and starts a turn at 15° while ending
+        it below 8° so the command cannot chatter. A command must hold 350 ms before it is spoken
+        and stands 1.4 s once announced — a person needs a beat to hear a turn and begin making
+        it. <code>STOP</code> bypasses every one of those gates, because a safety stop is never
+        delayed.
+      </p>
+
+      <h4>Three boundaries hold the design together</h4>
+      <div class="modal__cols">
+        <div>
+          <h5>Mapping stays native</h5>
+          <p>
+            Depth clouds and the occupancy grid never cross into JavaScript — only small
+            snapshots, plus a rendered PNG every 700 ms when the debug map is switched on.
+          </p>
+        </div>
+        <div>
+          <h5>The engine is pure Kotlin</h5>
+          <p>
+            <code>navigation-core</code> is a separate Gradle project with no Android SDK or
+            ARCore on its classpath, so an accidental import fails the build instead of going
+            unnoticed. Planning logic tests on a laptop in milliseconds.
+          </p>
+        </div>
+        <div>
+          <h5>The cloud is optional</h5>
+          <p>
+            Mapping and planning have no model dependency at all. Visual interpretation is gated,
+            and without a key the app falls back to on-device perception rather than breaking.
+          </p>
+        </div>
+      </div>
+
+      <h4>Two loops running on different clocks</h4>
+      <p>
+        Navigation is driven by the ARCore render loop at roughly 30 fps. Perception is far
+        slower — a capture is attempted every 2.5 seconds and overlapping work is skipped — so
+        the two cannot share a cadence, and semantic detections arrive as hints to a map that has
+        already moved on.
+      </p>
+      <p>
+        Every gate is therefore <b>time-based rather than frame-count based</b>. That was a
+        shipped bug: <code>commandStabilityFrames = 3</code> had been written assuming ~10 Hz
+        ticks, but at 30 fps three frames is 100 ms, so the instruction could change ten times a
+        second. On device it was reported as <i>"it just tells me left, then right, and I make no
+        progress."</i>
+      </p>
+
+      <h4>It refuses to move you until it knows the room</h4>
+      <p>
+        The default initial scan is <b>10 seconds of qualifying scan time</b> — only frames with
+        both tracking and depth available count toward it, so a slow ARCore warm-up never eats
+        the budget. Map confidence is measured over a 3 m radius, which means standing still does
+        not satisfy it either: the user has to actually sweep the space before the first movement
+        instruction is given.
+      </p>
+
+      <p class="modal__note">
+        This describes the source wiring, not a verification run on a physical phone.
+        <a href="https://github.com/swjk1/Navigation-assistant-for-visually-impaired/blob/main/ARCHITECTURE.md">Full architecture doc on GitHub →</a>
+      </p>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  (function () {
+    "use strict";
+
+    document.querySelectorAll("[data-modal]").forEach(function (trigger) {
+      trigger.addEventListener("click", function () {
+        var d = document.getElementById(trigger.dataset.modal);
+        if (d && typeof d.showModal === "function") d.showModal();
+      });
+    });
+
+    document.querySelectorAll(".modal").forEach(function (d) {
+      d.querySelector(".modal__x").addEventListener("click", function () { d.close(); });
+      /* the dialog element is the backdrop, so a click on it and not its
+         contents means the user clicked outside */
+      d.addEventListener("click", function (e) { if (e.target === d) d.close(); });
+    });
+  })();
+</script>

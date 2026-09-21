@@ -1,0 +1,35 @@
+# Caddy terminates TLS on the VPS and proxies to the backend container.
+# Certificates are obtained and renewed from Let's Encrypt automatically,
+# which is the whole reason this is three lines instead of thirty.
+#
+# Deployed as: caddy run --config /etc/caddy/Caddyfile
+
+api.{$DOMAIN:leonzhang.dev} {
+	encode zstd gzip
+
+	# Actuator is for the operator, not the internet. Health is allowed through
+	# because the deploy script polls it; everything else under /actuator is not.
+	@actuator path /actuator/*
+	@health path /actuator/health
+	handle @health {
+		reverse_proxy backend:8080
+	}
+	handle @actuator {
+		respond 404
+	}
+
+	handle {
+		reverse_proxy backend:8080 {
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	header {
+		# Section 79: secure headers.
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+}

@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 930" role="img" aria-label="Architecture. A single ARCore session at the top feeds two consumers: the RGB frame goes to on-device YOLO and ML Kit OCR, optionally enriched by a gated Gemini vision model, then mapped to semantic observations; pose and depth go to the navigation runtime and into a pure Kotlin engine that builds an occupancy grid, inflates obstacles, picks frontiers, plans with A star and a topological map, and emits one instruction. Only compact snapshots cross into JavaScript for speech and haptics.">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#5E7A93"/>
+        </marker>
+        <marker id="ar-t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#4FD1C5"/>
+        </marker>
+        <marker id="ar-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#8878B8"/>
+        </marker>
+      </defs>
+
+      <rect width="1000" height="930" fill="#0E1116"/>
+
+      <!-- ===== the shared camera session ===== -->
+      <rect x="40" y="28" width="920" height="88" rx="5" fill="#1B2230" stroke="#3C5372" stroke-width="1.5"/>
+      <circle cx="74" cy="64" r="13" fill="none" stroke="#7FA6CE" stroke-width="2"/>
+      <circle cx="74" cy="64" r="5" fill="#7FA6CE"/>
+      <text x="104" y="58" fill="#F2F2F3" font-family="Chakra Petch, Bahnschrift, sans-serif" font-weight="700" font-size="20">Camera · one ARCore session</text>
+      <text x="104" y="80" fill="#7F93AA" font-family="monospace" font-size="13">ARCore demands exclusive access to the camera — a second session</text>
+      <text x="104" y="100" fill="#7F93AA" font-family="monospace" font-size="13">silently evicts the first. One session, two consumers of one frame.</text>
+
+      <path d="M250 116 L250 148" stroke="#5E7A93" stroke-width="2" marker-end="url(#ar)"/>
+      <path d="M750 116 L750 148" stroke="#4FD1C5" stroke-width="2.5" marker-end="url(#ar-t)"/>
+      <text x="262" y="130" fill="#7F93AA" font-family="monospace" font-size="12">RGB frame</text>
+      <text x="762" y="130" fill="#5E9B98" font-family="monospace" font-size="12">6DoF pose + depth · ~30 fps</text>
+
+      <!-- ===== LEFT LANE — perception ===== -->
+      <rect x="40" y="148" width="430" height="196" rx="5" fill="#16232E" stroke="#2B3F52" stroke-width="1.5"/>
+      <text x="62" y="180" fill="#F2F2F3" font-family="Chakra Petch, Bahnschrift, sans-serif" font-weight="700" font-size="19">indoor-perception</text>
+      <text x="62" y="201" fill="#6E8399" font-family="monospace" font-size="13">native · owns the session</text>
+
+      <rect x="62" y="214" width="386" height="44" rx="3" fill="#1E3446" stroke="#3A5670"/>
+      <text x="78" y="235" fill="#CFE0EE" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">YOLO26n · ONNX · on device</text>
+      <text x="78" y="252" fill="#89A4BC" font-family="monospace" font-size="11.5">17 wayfinding classes · 640×640 · 9.8 MB</text>
+
+      <rect x="62" y="266" width="386" height="44" rx="3" fill="#1E3446" stroke="#3A5670"/>
+      <text x="78" y="287" fill="#CFE0EE" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">ML Kit OCR · on device</text>
+      <text x="78" y="304" fill="#89A4BC" font-family="monospace" font-size="11.5">room numbers, exit and floor text</text>
+
+      <text x="62" y="331" fill="#6E8399" font-family="monospace" font-size="11.5">RGB → JPEG only when a capture is requested · every 2.5 s</text>
+
+      <!-- gemini, optional -->
+      <path d="M255 344 L255 380" stroke="#8878B8" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ar-p)"/>
+      <text x="267" y="368" fill="#8878B8" font-family="monospace" font-size="12">gated image request</text>
+
+      <rect x="40" y="380" width="430" height="116" rx="5" fill="#1D1726" stroke="#4A3D63" stroke-width="1.5" stroke-dasharray="7 5"/>
+      <text x="62" y="412" fill="#C3B6F2" font-family="Chakra Petch, Bahnschrift, sans-serif" font-weight="700" font-size="19">Gemini Flash VLM</text>
+      <rect x="236" y="396" width="82" height="22" rx="3" fill="#2C2440" stroke="#4A3D63"/>
+      <text x="248" y="412" fill="#AFA2CE" font-family="monospace" font-size="11.5">optional</text>
+      <text x="62" y="441" fill="#AFA2CE" font-family="Inter, Segoe UI, sans-serif" font-size="14">Second opinion on the scene, gated per capture.</text>
+      <text x="62" y="463" fill="#AFA2CE" font-family="Inter, Segoe UI, sans-serif" font-size="14">No key? YOLO and OCR still run, fully on device —</text>
+      <text x="62" y="483" fill="#AFA2CE" font-family="Inter, Segoe UI, sans-serif" font-size="14">only the VLM stage reports <tspan font-family="monospace" font-size="13">mock</tspan>.</text>
+
+      <path d="M255 496 L255 532" stroke="#5E7A93" stroke-width="2" marker-end="url(#ar)"/>
+
+      <!-- label mapping -->
+      <rect x="40" y="532" width="430" height="150" rx="5" fill="#16232E" stroke="#2B3F52" stroke-width="1.5"/>
+      <text x="62" y="564" fill="#F2F2F3" font-family="Chakra Petch, Bahnschrift, sans-serif" font-weight="700" font-size="19">Label mapping</text>
+      <text x="62" y="585" fill="#6E8399" font-family="monospace" font-size="13">a sign is reported as its subject</text>
+      <g font-family="monospace" font-size="13">
+        <text x="62" y="612" fill="#89A4BC">exit sign</text><text x="176" y="612" fill="#5E7A93">→</text><text x="206" y="612" fill="#CFE0EE">EXIT + direction</text>
+        <text x="62" y="634" fill="#89A4BC">stair sign</text><text x="176" y="634" fill="#5E7A93">→</text><text x="206" y="634" fill="#CFE0EE">STAIRS</text>
+        <text x="62" y="656" fill="#89A4BC">"314"</text><text x="176" y="656" fill="#5E7A93">→</text><text x="206" y="656" fill="#CFE0EE">ROOM landmark</text>
+      </g>
+      <text x="62" y="674" fill="#6E8399" font-family="monospace" font-size="11.5">person, trash can → dropped; depth already sees them</text>
+
+      <path d="M470 606 L530 606" stroke="#5E7A93" stroke-width="2" marker-end="url(#ar)"/>
+      <text x="300" y="706" fill="#6E8399" font-family="monospace" font-size="12">semantic hints · bias only, never movement</text>
+
+      <!-- ===== RIGHT LANE — navigation ===== -->
+      <rect x="530" y="148" width="430" height="196" rx="5" fill="#16232E" stroke="#2B3F52" stroke-width="1.5"/>
+      <text x="552" y="180" fill="#F2F2F3" font-family="Chakra Petch, Bahnschrift, sans-serif" font-weight="700" font-size="19">navigation-native</text>
+      <text x="552" y="201" fill="#6E8399" font-family="monospace" font-size="13">native · the bridge into the engine</text>
+      <g fill="#AFC2D4" font-family="Inter, Segoe UI, sans-serif" font-size="14.5">
+        <text x="552" y="233">· Pose and depth conversion</text>
+        <text x="552" y="261">· One engine thread</text>
+        <text x="552" y="289">· Latest-frame queue — stale depth is dropped,</text>
+        <text x="566" y="311">never queued</text>
+      </g>
+
+      <path d="M745 344 L745 380" stroke="#4FD1C5" stroke-width="2.5" marker-end="url(#ar-t)"/>
+      <text x="757" y="368" fill="#5E9B98" font-family="monospace" font-size="12">NavigationFrame</text>
+
+      <rect x="530" y="380" width="430" height="422" rx="5" fill="#122A2B" stroke="#2F6B6B" stroke-width="1.5"/>
+      <text x="552" y="412" fill="#F2F2F3" font-family="Chakra Petch, Bahnschrift, sans-serif" font-weight="700" font-size="20">navigation-core</text>
+      <text x="552" y="433" fill="#5E9B98" font-family="monospace" font-size="13">pure Kotlin</text>
+
+      <g>
+        <rect x="552" y="448" width="386" height="42" rx="3" fill="#14383A" stroke="#2F6B6B"/>
+        <text x="568" y="467" fill="#BDECE7" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">Occupancy grid</text>
+        <text x="568" y="483" fill="#6FAFAA" font-family="monospace" font-size="11.5">10 cm cells · 120 × 120 · 12 m window · depth ≤ 6 m</text>
+
+        <rect x="552" y="498" width="386" height="42" rx="3" fill="#14383A" stroke="#2F6B6B"/>
+        <text x="568" y="517" fill="#BDECE7" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">Obstacle inflation</text>
+        <text x="568" y="533" fill="#6FAFAA" font-family="monospace" font-size="11.5">by body radius · goal snaps to nearest reachable cell</text>
+
+        <rect x="552" y="548" width="386" height="42" rx="3" fill="#14383A" stroke="#2F6B6B"/>
+        <text x="568" y="567" fill="#BDECE7" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">Frontier exploration</text>
+        <text x="568" y="583" fill="#6FAFAA" font-family="monospace" font-size="11.5">free beside unknown · clusters &lt; 6 cells rejected as speckle</text>
+
+        <rect x="552" y="598" width="386" height="42" rx="3" fill="#1A4A48" stroke="#48908C"/>
+        <text x="568" y="617" fill="#D6F5F1" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">Local A* + line-of-sight smoothing</text>
+        <text x="568" y="633" fill="#7FC2BC" font-family="monospace" font-size="11.5">raw grid A* stair-steps into unusable left/right chatter</text>
+
+        <rect x="552" y="648" width="386" height="42" rx="3" fill="#1A4A48" stroke="#48908C"/>
+        <text x="568" y="667" fill="#D6F5F1" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">Topological map</text>
+        <text x="568" y="683" fill="#7FC2BC" font-family="monospace" font-size="11.5">sparse graph · an edge means "I have walked this"</text>
+
+        <rect x="552" y="698" width="386" height="42" rx="3" fill="#1A4A48" stroke="#48908C"/>
+        <text x="568" y="717" fill="#D6F5F1" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">Backtracking · graph A*</text>
+        <text x="568" y="733" fill="#7FC2BC" font-family="monospace" font-size="11.5">back to the last junction with unexplored ways out</text>
+
+        <rect x="552" y="748" width="386" height="42" rx="3" fill="#14383A" stroke="#2F6B6B"/>
+        <text x="568" y="767" fill="#BDECE7" font-family="Inter, Segoe UI, sans-serif" font-weight="600" font-size="14.5">Controller</text>
+        <text x="568" y="783" fill="#6FAFAA" font-family="monospace" font-size="11.5">1.5 m lookahead · 350 ms hold · 1.4 s dwell · STOP bypasses</text>
+      </g>
+
+      <rect x="742" y="410" width="196" height="26" rx="3" fill="#2A1A1C" stroke="#7A3B36"/>
+      <text x="756" y="428" fill="#E8897F" font-family="monospace" font-size="12">no Android SDK · no ARCore</text>
+
+      <!-- ===== the bridge into JavaScript ===== -->
+      <path d="M745 802 L745 848" stroke="#4FD1C5" stroke-width="2.5" marker-end="url(#ar-t)"/>
+      <text x="757" y="832" fill="#5E9B98" font-family="monospace" font-size="12">snapshot · ≤ 8 Hz</text>
+
+      <path d="M40 826 L700 826" stroke="#E0564B" stroke-width="1.5" stroke-dasharray="7 6"/>
+      <text x="44" y="820" fill="#E0564B" font-family="monospace" font-size="12.5">the bridge · depth clouds and the grid never cross it</text>
+
+      <rect x="40" y="848" width="920" height="60" rx="5" fill="#152030" stroke="#33485D" stroke-width="1.5"/>
+      <text x="62" y="874" fill="#F2F2F3" font-family="Chakra Petch, Bahnschrift, sans-serif" font-weight="700" font-size="18">Expo / React Native · guidance output</text>
+      <text x="62" y="895" fill="#7F93AA" font-family="monospace" font-size="12.5">speech + haptics · one instruction at a time</text>
+    </svg>

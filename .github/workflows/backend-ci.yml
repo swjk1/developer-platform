@@ -1,0 +1,53 @@
+name: backend-ci
+
+on:
+  push:
+    branches: [main]
+    paths: ["backend/**", ".github/workflows/backend-ci.yml"]
+  pull_request:
+    paths: ["backend/**", ".github/workflows/backend-ci.yml"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - name: Compile
+        working-directory: backend
+        run: mvn -B -ntp compile
+
+      # Unit tests only. Fast, no containers, fails early on pure-logic breaks.
+      - name: Unit tests
+        working-directory: backend
+        run: mvn -B -ntp test
+
+      # Testcontainers starts a real PostgreSQL here. GitHub-hosted runners
+      # have a Docker daemon available, so no service container is needed.
+      - name: Integration and API tests
+        working-directory: backend
+        run: mvn -B -ntp verify
+
+      - name: Coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco
+          path: backend/target/site/jacoco/
+          if-no-files-found: ignore
+
+      - name: Test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: |
+            backend/target/surefire-reports/
+            backend/target/failsafe-reports/
+          if-no-files-found: ignore

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="cbbg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#1B2A16"/><stop offset="1" stop-color="#0C120A"/>
+              </linearGradient>
+            </defs>
+            <rect width="640" height="360" fill="url(#cbbg)"/>
+
+            <!-- video frame strip -->
+            <g stroke="#3E6B34" stroke-width="1.5" fill="#16240F">
+              <rect x="50" y="42" width="112" height="66" rx="3"/>
+              <rect x="180" y="42" width="112" height="66" rx="3"/>
+              <rect x="310" y="42" width="112" height="66" rx="3"/>
+              <rect x="440" y="42" width="112" height="66" rx="3"/>
+            </g>
+            <!-- selected keyframe -->
+            <rect x="180" y="42" width="112" height="66" rx="3" fill="none" stroke="#9AE66E" stroke-width="3"/>
+
+            <!-- waveform (ASR) -->
+            <g stroke="#9AE66E" stroke-width="2" opacity=".9">
+              <path d="M50 160v-16M62 160v-30M74 160v-10M86 160v-38M98 160v-22M110 160v-44M122 160v-14M134 160v-26M146 160v-34M158 160v-12M170 160v-30M182 160v-42M194 160v-18M206 160v-28M218 160v-36M230 160v-14M242 160v-24M254 160v-40M266 160v-16M278 160v-30"/>
+            </g>
+            <path d="M50 160h500" stroke="#3E6B34" stroke-width="1"/>
+
+            <!-- recipe steps -->
+            <g>
+              <rect x="50" y="196" width="500" height="36" rx="4" fill="#1D2E16" stroke="#3E6B34"/>
+              <circle cx="74" cy="214" r="9" fill="#9AE66E"/>
+              <rect x="96" y="208" width="300" height="12" rx="4" fill="#C7E8B0"/>
+            </g>
+            <g opacity=".55">
+              <rect x="50" y="244" width="500" height="36" rx="4" fill="#161F12" stroke="#2C4A25"/>
+              <circle cx="74" cy="262" r="9" fill="none" stroke="#6F9B5E" stroke-width="2"/>
+              <rect x="96" y="256" width="230" height="12" rx="4" fill="#6F9B5E"/>
+            </g>
+            <g opacity=".35">
+              <rect x="50" y="292" width="500" height="36" rx="4" fill="#161F12" stroke="#2C4A25"/>
+              <circle cx="74" cy="310" r="9" fill="none" stroke="#6F9B5E" stroke-width="2"/>
+              <rect x="96" y="304" width="270" height="12" rx="4" fill="#6F9B5E"/>
+            </g>
+          </svg>
