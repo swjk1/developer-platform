@@ -65,10 +65,14 @@ class GitHubFallbackIT extends IntegrationTestBase {
     @Test
     void theProjectsApiKeepsServingCachedMetadataWhileGitHubIsDown() {
         // A good sync happens first, so there is something to fall back to.
+        //
+        // Order matters: WireMock picks the most recently registered matching
+        // stub, so the catch-all has to go in before the specific one or it
+        // shadows it.
+        GITHUB.stubFor(get(urlMatching("/repos/.*")).willReturn(aResponse().withStatus(404)));
         GITHUB.stubFor(get(urlEqualTo("/repos/swjk1/keyguard")).willReturn(okJson("""
                 {"stargazers_count": 128, "language": "Kotlin", "pushed_at": "2026-09-20T10:00:00Z"}
                 """)));
-        GITHUB.stubFor(get(urlMatching("/repos/.*")).willReturn(aResponse().withStatus(404)));
         sync.syncAll();
 
         // Now GitHub falls over completely.
