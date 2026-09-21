@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -36,6 +37,10 @@ public class GitHubApiClient {
         void sleep(Duration duration) throws InterruptedException;
     }
 
+    // Explicit, because the two-argument constructor below exists for tests.
+    // With two candidates and no annotation, Spring stops guessing and looks
+    // for a no-arg constructor instead, which is not there.
+    @Autowired
     public GitHubApiClient(GitHubProperties props) {
         this(props, duration -> Thread.sleep(duration.toMillis()));
     }
