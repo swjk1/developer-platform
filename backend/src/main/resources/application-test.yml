@@ -10,3 +10,17 @@ logging:
 app:
   cors:
     allowed-origins: http://localhost:3000
+
+github:
+  # Overridden per-test by WireMock. The default is a port nothing listens on,
+  # so a test that forgets to stub cannot silently reach the real GitHub.
+  base-url: http://localhost:1
+  interval: PT24H
+  initial-delay: PT24H
+  sync-on-startup: false
+  connect-timeout: PT0.2S
+  read-timeout: PT0.5S
+  max-attempts: 2
+  retry-base: PT0.01S
+  retry-max: PT0.05S
+  retry-jitter: 0.2

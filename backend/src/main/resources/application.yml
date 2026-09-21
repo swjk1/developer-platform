@@ -54,6 +54,23 @@ springdoc:
   swagger-ui:
     enabled: false
 
+github:
+  base-url: ${GITHUB_API_URL:https://api.github.com}
+  # Optional. Unauthenticated is 60 requests/hour, authenticated is 5000.
+  # The three repositories here need six calls per sync, so unauthenticated
+  # is workable; a token mostly buys headroom.
+  token: ${GITHUB_TOKEN:}
+  interval: ${GITHUB_SYNC_INTERVAL:PT30M}
+  initial-delay: PT1M
+  sync-on-startup: ${GITHUB_SYNC_ON_STARTUP:false}
+  connect-timeout: PT2S
+  read-timeout: PT5S
+  max-attempts: 3
+  # 500 ms, 1 s, 2 s — the schedule in spec section 12.
+  retry-base: PT0.5S
+  retry-max: PT10S
+  retry-jitter: 0.2
+
 app:
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}

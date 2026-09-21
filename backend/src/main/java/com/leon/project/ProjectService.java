@@ -1,7 +1,10 @@
 package com.leon.project;
 
 import com.leon.common.ResourceNotFoundException;
+import com.leon.github.GitHubSummary;
+import com.leon.github.GitHubSyncService;
 import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,9 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProjectService {
 
     private final ProjectRepository repository;
+    private final GitHubSyncService github;
 
-    public ProjectService(ProjectRepository repository) {
+    public ProjectService(ProjectRepository repository, GitHubSyncService github) {
         this.repository = repository;
+        this.github = github;
     }
 
     public List<ProjectResponse> findAll(ProjectStatus status, Boolean featured) {
@@ -31,12 +36,22 @@ public class ProjectService {
         } else {
             found = repository.findAllByOrderByDisplayOrderAscIdAsc();
         }
-        return found.stream().map(ProjectResponse::from).toList();
+
+        // One query for every project's metadata rather than one per project.
+        // The list endpoint is the hot path and an N+1 here would be the first
+        // thing a load test finds.
+        Map<Long, GitHubSummary> summaries =
+                github.summariesFor(found.stream().map(Project::getId).toList());
+
+        return found.stream()
+                .map(p -> ProjectResponse.from(p, summaries.get(p.getId())))
+                .toList();
     }
 
     public ProjectResponse findBySlug(String slug) {
-        return repository.findBySlug(slug)
-                .map(ProjectResponse::from)
+        Project project = repository.findBySlug(slug)
                 .orElseThrow(() -> new ResourceNotFoundException("Project", slug));
+
+        return ProjectResponse.from(project, github.summaryFor(project.getId()).orElse(null));
     }
 }
