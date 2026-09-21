@@ -1,6 +1,13 @@
 package com.leon.api;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
+// Not a wildcard import: WireMock exports its own equalTo(String), which
+// returns a StringValuePattern and silently shadows Hamcrest's matcher in a
+// file that needs both.
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.okJson;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
