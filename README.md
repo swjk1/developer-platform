@@ -4,6 +4,9 @@ A deployed personal portfolio backed by a production-style service architecture
 rather than a static frontend. The website is the visible product; the
 infrastructure behind it is the project.
 
+The full specification is in [SPEC.md](./SPEC.md); section references
+throughout this README (§n) point at it.
+
 ```
         Internet
             │
