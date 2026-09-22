@@ -35,3 +35,6 @@ test-results/
 # vercel
 .vercel
 LeonZ_Resume_SWE (4).pdf
+
+# build output
+dist/

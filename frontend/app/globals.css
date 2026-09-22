@@ -561,3 +561,156 @@
     html { scroll-behavior: auto; }
     * { transition-duration: .01ms !important; }
   }
+
+  /* ============================================================
+     PRINT / PDF
+     The screen design is near-black. Printing it would empty a
+     cartridge and read badly on paper, so print gets an inverted
+     palette, the interactive chrome removed, and link targets
+     spelled out — a PDF has no hover and nothing to click back to.
+     ============================================================ */
+
+  @media print {
+    @page {
+      size: A4;
+      margin: 14mm 12mm;
+    }
+
+    :root {
+      --bg: #FFFFFF;
+      --card: #FFFFFF;
+      --card-2: #FFFFFF;
+      --line: #C9C9CE;
+      --line-2: #9A9AA1;
+      --text: #111113;
+      --muted: #3D3D44;
+      --muted-2: #6E6E76;
+    }
+
+    body {
+      background: #fff;
+      color: #111113;
+      font-size: 10.5pt;
+      line-height: 1.45;
+    }
+
+    .wrap { max-width: none; padding: 0; }
+
+    /* Nothing interactive survives onto paper. */
+    .actions,
+    .cta,
+    .contact .field,
+    .contact > .btn,
+    .modal,
+    footer .icons { display: none !important; }
+
+    /* The masthead icon row is a set of links to nowhere in print;
+       the addresses are printed under the name instead. */
+    .top .icons { display: none !important; }
+
+    .top { padding-top: 0; }
+
+    .top::after {
+      content: "leonzh1018@gmail.com  ·  github.com/swjk1  ·  linkedin.com/in/leon-zhang-zijun  ·  leon-zhang.vercel.app";
+      display: block;
+      width: 100%;
+      margin-top: 8px;
+      font-family: var(--display);
+      font-size: 8.5pt;
+      letter-spacing: .04em;
+      color: #3D3D44;
+    }
+
+    .intro { font-size: 11pt; margin-top: 14px; }
+
+    .band { padding: 14px 0 0; }
+
+    /* Keep a section heading with the section. Without this, "Experience"
+       stranded itself at the foot of page one and its content began on
+       page two. */
+    .band__head {
+      margin-bottom: 12px;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+    .band__head h2 { font-size: 17pt; }
+
+    /* One project per block, never split across a page boundary. */
+    .work-grid { display: block; }
+
+    .work {
+      border: 1px solid #C9C9CE;
+      padding: 10px 12px 12px;
+      margin-bottom: 12px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+      transform: none !important;
+    }
+
+    /* The diagrams are dark-background SVGs. At print size they are
+       decoration rather than information, and they would each cost a
+       page, so the text and the numbers carry it instead. */
+    .thumb { display: none !important; }
+
+    .work--wide { display: block; }
+    .work__body { padding: 0; }
+    .work h3 { font-size: 13pt; margin-top: 0; }
+    .work .desc { font-size: 10pt; margin-top: 6px; }
+
+    .stats {
+      display: flex;
+      gap: 0;
+      border: 1px solid #C9C9CE;
+      margin-top: 10px;
+      background: #fff;
+    }
+
+    .stat {
+      background: #fff;
+      padding: 7px 12px;
+      border-right: 1px solid #C9C9CE;
+      flex: 1;
+    }
+
+    .stat:last-child { border-right: 0; }
+    .stat dd { font-size: 14pt; }
+    .stat dt { font-size: 7pt; color: #3D3D44; }
+
+    .stack { margin-top: 9px; }
+    .stack span { border-color: #9A9AA1; color: #111113; font-size: 7.5pt; }
+
+    .exp-grid, .kit { display: block; }
+
+    .exp, .kit > div, .edu {
+      border: 1px solid #C9C9CE;
+      margin-bottom: 8px;
+      padding: 10px 12px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .exp h3 { font-size: 12pt; }
+    .exp li, .work li { font-size: 9.5pt; margin-top: 5px; }
+    .kit { display: flex; gap: 10px; }
+    .kit > div { flex: 1; }
+
+    .contact { padding-top: 12px; }
+    .contact h2 { font-size: 15pt; }
+
+    .contact::after {
+      content: "leonzh1018@gmail.com";
+      display: block;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 12pt;
+      margin-top: 4px;
+    }
+
+    .note { display: none; }
+
+    /* The footer only repeats the contact line already printed under the
+       name, and on paper it was spilling onto a third page to say so. */
+    footer { display: none !important; }
+
+    a { text-decoration: none; color: inherit; }
+  }
